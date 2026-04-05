@@ -1,6 +1,6 @@
 ![Green Urchin Mascot](./assets/mascot.svg)
 
-*“Tame your windows, Call the Freen Urchin!”*
+*“Tame your windows, Call the Green Urchin!”*
 
 ## Overview
 
