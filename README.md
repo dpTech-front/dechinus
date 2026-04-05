@@ -1,6 +1,6 @@
 # 🟢 Dechinus WM
 
-![Green Urchin Mascot](./assets/mascot.png)
+![Green Urchin Mascot](./assets/mascot.svg)
 
 **Tagline / Catchphrase:** *“Tame your windows, ride the urchin!”*
 
