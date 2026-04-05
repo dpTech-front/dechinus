@@ -1,6 +1,7 @@
-![Green Urchin Mascot](./assets/mascot.svg)
+# DechinusWM 
+> The Spiky, Professional Tiling Window Manager.
 
-*“Tame your windows, Call the Green Urchin!”*
+![Captain Dechinus](assets/captain-dechinus.svg)
 
 ## Overview
 
