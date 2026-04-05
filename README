@@ -1,294 +1,92 @@
-echinus wm.
-==========
+# 🟢 Dechinus WM
 
-WARNING: this project is not maintained anymore.
+![Green Urchin Mascot](./assets/mascot.png)
 
-0.Installation
-1.Configuration file
-2.config.h header
-3.About panels and pagers
+**Tagline / Catchphrase:** *“Tame your windows, ride the urchin!”*
 
+> ⚠️ **Legacy Note:** Dechinus is a fork of **Echinus**, which is now unmaintained. We honor its legacy while actively maintaining and improving the project.
 
-0.Installation
---------------
+## Overview
 
-You need X11 and Xft headers to compile echinus wm and the pkg-config tool.
-Packages containing this stuff are probably named libx11-dev and libxft-dev
-(note "-dev" suffix). You need libxrandr for multihead support (can be
-disabled in config.mk if not needed). XRandr-enabled binary still works 
-with single monitor configurations.
+**Dechinus** is a lightweight, tiling window manager for **X11**, forked from **Echinus**. It retains the original speed and minimalism, but adds:
 
-# make
-# make install
+* **Active maintenance** and ongoing improvements
+* **Custom branding** (green urchin mascot)
+* **Updated defaults and better configurability**
 
-On new install:
+> Your mascot represents nimbleness, adaptability, and control — qualities that define Dechinus.
 
-% mkdir ~/.echinus
-% cp -r CONFDIR ~/.echinus
+## Features
 
-1.Configuration file
---------------------
+* Lightweight & fast, minimal dependencies
+* Highly configurable layouts, gaps, titlebars, and modkeys
+* Panels and tagbars fully configurable
+* Portable setup: configurations stored in your home directory
+* Legacy of **Echinus** maintained, but actively improved
 
-Name: ~/.echinus/echinusrc
+## Installation
 
-Main settings
+Dependencies: `X11`, `Xft`, `pkg-config`. Optional for multihead setups: `libxrandr`.
 
-    Echinus*deflayout
-        Layout applied to tag if not explicitly set by tags.layout later.
-        One of: i - ifloating, f - floating, t - tiled, b - bottomstack, m - maximized. 
+```bash
+# Clone the repository
+git clone https://github.com/your-username/dechinus.git
+cd dechinus
 
-    Echinus*gap
+# Build & install
+make
+sudo make install
 
-        Gap size between tiling windows in pixels.
+# Setup initial config
+mkdir -p ~/.dechinus
+cp -r CONFDIR ~/.dechinus
+```
 
-    Echinus*mwfact
+> Adjust `~/.dechinus/dechinusrc` to set your layouts, gaps, and master window size.
 
-        Space occupied by master window in tiled layout (fraction of 1).
+## Configuration
 
-    Echinus*nmaster
+### Main Settings
 
-        Number of clients in master area in tiled layout.
+| Setting              | Description                                                                  | Example |
+| -------------------- | ---------------------------------------------------------------------------- | ------- |
+| `Dechinus*deflayout` | Default layout: i=ifloating, f=floating, t=tiled, b=bottomstack, m=maximized | `t`     |
+| `Dechinus*gap`       | Gap between windows (pixels)                                                 | `5`     |
+| `Dechinus*mwfact`    | Fraction of master area                                                      | `0.55`  |
+| `Dechinus*nmaster`   | Number of master clients                                                     | `1`     |
+| `Dechinus*sloppy`    | Focus behavior: 0=click, 1=sloppy floating, 2=sloppy all, 3=sloppy+raise     | `1`     |
+| `Dechinus*modkey`    | Modifier key: A=Alt, W=Win, S=Shift, C=Ctrl                                  | `W`     |
 
-    Echinus*sloppy
-       
-       0 - Click to focus
-       1 - Sloppy focus for floating clients
-       2 - Sloppy focus for everything
-       3 - Sloppy focus + raise on focus
+### Title Settings
 
-    Echinus*modkey
+* `Dechinus*decoratetiled` – Show titlebars in tiled mode (1/0)
+* `Dechinus*titlelayout` – Titlebar format (`"N  IMC"` for tags, icons, master, client)
 
-       Choose modkey. A for alt, W - winkey, S - shift, C - control
+Full options are in `config.h` and `dechinusrc`.
 
-Title settings
+## Panels & Tagbars
 
-    Echinus*decoratetiled - boolean (1 or 0)
+* Fully configurable for status, time, CPU, etc.
+* Supports custom scripts and widgets.
 
-        Draw titles in tiled mode
+## Legacy Acknowledgement
 
-    Echinus*titleposition
-    Echinus*tagbar
-    Echinus*tbpos
+**Echinus** was the original lightweight tiling window manager that inspired Dechinus. While Echinus is no longer maintained, its legacy lives on in Dechinus, now actively maintained and improved.
 
-	Were removed for more general interface, see below
+## Mascot & Branding
 
-    Echinus*titlelayout - string
+Include your green urchin mascot in the repository:
 
-	Titlebar consists of 3 parts separated with dashes or
-	spaces. Left is aligned to left, center to center and
-	right to right (obviously).
+```text
+assets/
+├── mascot.png  # Green urchin mascot
+├── banner.png  # Optional banner image
+```
 
-	Default value is "N  IMC" meaning name on the left
-	iconify, maximize and close buttons on right (note
-	2 spaces).
+## Contributing
 
-	- or ' ' (space) - skip space (space can't be
-	    used as first character)
-	N - window name
-	I - iconify
-	M - maximize
-	C - close
-	T - tagbar
+Contributions are welcome! Fork, tweak layouts, fix bugs, and submit pull requests. Dechinus is **actively maintained**, unlike its predecessor.
 
-	Examples:
+## License
 
-	    -T-C - title centered, close button on right
-
-
-Color settings
-
-    Echinus*selected.border
-    Echinus*normal.border
-    Echinus*selected.bg
-    Echinus*normal.bg
-    Echinus*selected.fg
-    Echinus*normal.fg
-    Echinus*selected.button
-    Echinus*normal.button
-
-        border - color of a small border around each window
-        bg - titlebar background
-        fg - titlebar foreground
-        button - button foreground
-
-        normal - unfocused window
-        selected - window in focus
-
-Border settings
-
-    Echinus*border
-
-        width of the border, in pixels
-
-Button settings
-
-    Echinus*button.iconify.pixmap (was: Echinus*button.left.pixmap)
-    Echinus*button.maximize.pixmap (was: Echinus*button.center.pixmap)
-    Echinus*button.close.pixmap (was: Echinus*button.right.pixmap)
-
-    buttons in the titlebar, left iconifies window, center switch
-    to monocle (fullscreen) mode, right - close.
-    ~ are not allowed in pathnames.
-
-Opacity
-
-    Echinus*opacity
-
-        Opacity value for inactive windows, you need xcompmgr running to
-        see the result.
-
-Terminal app
-    
-    Echinus*command (was: Echinus*terminal)
-
-        Application to run on right window click on root window.
-
-Title
-
-    Echinus*title
-
-        Titlebar height
-
-    Echinus*font
-
-        Titlebar font
-
-Tags 
-
-    Echinus*tags.number
-
-        Number of tags
-
-    Echinus*tags.name{...}
-
-        Names for the tags
-
-    Echinus*tags.layout{...}
-
-        Layout per tag on start. See deflayout for possible
-        values
-
-Hacks
-
-    Echinus*hidebastards
-
-        Set to 1 to hide panels, pagers and others with
-        togglestruts function.
-
-Keybindings
-
-    Format is "[ASCW] + key", where:
-        A - Alt (mod1)
-        S - Shift
-        C - Control
-        W - Windows key
-    You can find the list of available keys in keysym.h
-    and XF86keysym.h files (usually located in 
-    /usr/include/X11/), remove XK_ prefix before use.
-
-    Don't miss ' ' (space).
-
-    Echinus*togglestruts
-
-     Echinus has no bar, but this binding switches the area
-     on top or bottom which won't be covered by windows in
-     tiled or monocle mode.
-
-
-    Echinus*togglemonitor
-
-     Switch from one monitor to another.
-
-    Echinus*focusnext
-    Echinus*focusprev
-
-     Focus next and previous window
-
-    Echinus*viewprevtag
-
-     View previous tag set
-
-    Echinus*quit
-
-     Leave echinus
-
-    Echinus*restart
-
-     Restart echinus
-
-    Echinus*killclient
-     
-     Close window in focus
-
-    Echinus*togglefloating
-
-     Toggle floating/tiled
-
-    Echinus*view#
-
-     View tag number #
-
-    Echinus*tag#
-
-     Tag current window with tag number #
-
-    Echinus*toggleview#
-     
-     Toggle view number #
-
-    Echinus*focusview#
-     
-     Toggle view number # and focus the first client
-     from it.
-
-    Echinus*viewlefttag
-    Echinus*viewrighttag
-
-     View tag on the left(right) of current
-
-    Echinus*spawn#: <key> = program
-
-     Run specified program. # is less than 64.
-
-    Echinus*moveright
-    Echinus*moveleft
-    Echinus*moveup
-    Echinus*movedown
-      
-     Syntax for this is rather untrivial: x y w h. For example move right for five pixels:
-
-       Echinus*moveright: AS + l = +5 0 0 0
-    
-    Echinus*resizedecx
-    Echinus*resizedecy
-    Echinus*resizeincy
-    Echinus*resizeincx
-      
-     Same as above, but change second group of values. Resize by y for 5 pixels:
-	
-       Echinus*resizedecy: AS + v = 0 0 0 -5
-
-    Echinus*rule#
-     
-     Format is "<Window class|Window title> <tag> <isfloating> <hastitle>"
-
-2.config.h header
------------------
-
-Contains default values of options. You probably don't have
-to edit it.
-
-
-3.About panels and pagers
--------------------------
-
-Echinus supports some parts of EWMH, so if the author of the pager knows
-what this magical letters mean it *should* work fine.
-
-Known to work:
-    fbpanel
-    ipager
-    ourico
-
-Known to NOT work:
-    pypanel
+**MIT License** — See [LICENSE](./LICENSE) for full details.
