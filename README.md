@@ -1,10 +1,6 @@
-# 🟢 Dechinus WM
-
 ![Green Urchin Mascot](./assets/mascot.svg)
 
-**Tagline / Catchphrase:** *“Tame your windows, ride the urchin!”*
-
-> ⚠️ **Legacy Note:** Dechinus is a fork of **Echinus**, which is now unmaintained. We honor its legacy while actively maintaining and improving the project.
+*“Tame your windows, Call the Freen Urchin!”*
 
 ## Overview
 
@@ -69,23 +65,9 @@ Full options are in `config.h` and `dechinusrc`.
 * Fully configurable for status, time, CPU, etc.
 * Supports custom scripts and widgets.
 
-## Legacy Acknowledgement
-
-**Echinus** was the original lightweight tiling window manager that inspired Dechinus. While Echinus is no longer maintained, its legacy lives on in Dechinus, now actively maintained and improved.
-
-## Mascot & Branding
-
-Include your green urchin mascot in the repository:
-
-```text
-assets/
-├── mascot.png  # Green urchin mascot
-├── banner.png  # Optional banner image
-```
-
 ## Contributing
 
-Contributions are welcome! Fork, tweak layouts, fix bugs, and submit pull requests. Dechinus is **actively maintained**, unlike its predecessor.
+Contributions are welcome! Fork, tweak layouts, fix bugs, and submit pull requests.
 
 ## License
 
