@@ -173,21 +173,6 @@ void drawclient(Client * c);
 void deinitstyle();
 void initstyle();
 
-/* XXX: this block of defines must die */
-#define curseltags curmonitor()->seltags
-#define curprevtags curmonitor()->prevtags
-#define cursx curmonitor()->sx
-#define cursy curmonitor()->sy
-#define cursh curmonitor()->sh
-#define cursw curmonitor()->sw
-#define curwax curmonitor()->wax
-#define curway curmonitor()->way
-#define curwaw curmonitor()->waw
-#define curwah curmonitor()->wah
-#define curmontag curmonitor()->curtag
-#define curstruts curmonitor()->struts
-#define curlayout views[curmontag].layout
-
 #define LENGTH(x)		(sizeof(x) / sizeof x[0])
 #ifdef DEBUG
 #define DPRINT			fprintf(stderr, "%s: %s() %d\n",__FILE__,__func__, __LINE__);

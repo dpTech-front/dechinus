@@ -4,7 +4,7 @@
  *
  *    Copyright © 2007-2008 Julien Danjou <julien@danjou.info>
  *    Copyright © 2008 Alexander Polakov <polachok@gmail.com>
- *
+ *    Maintenance: © 2026 Daniel B. Prodigalidad
  */
 
 #include <regex.h>
@@ -18,41 +18,41 @@
 
 Atom atom[NATOMS];
 
-/* keep in sync with enum in echinus.h */
-const char *atomnames[NATOMS][1] = {
-	{ "_NET_CLIENT_LIST"		},
-	{ "_NET_ACTIVE_WINDOW"		},
-	{ "_NET_WM_DESKTOP"		},
-	{ "_NET_NUMBER_OF_DESKTOPS"	},
-	{ "_NET_DESKTOP_NAMES"		},
-	{ "_NET_CURRENT_DESKTOP"	},
-	{ "_DECHINUS_LAYOUT"		},
-	{ "_NET_WORKAREA"		},
-	{ "_NET_CLIENT_LIST_STACKING"	},
-	{ "_NET_WM_WINDOW_OPACITY"	},
-	{ "_NET_WM_WINDOW_TYPE"		},
-	{ "_NET_WM_WINDOW_TYPE_DESKTOP"	},
-	{ "_NET_WM_WINDOW_TYPE_DOCK"	},
-	{ "_NET_WM_WINDOW_TYPE_DIALOG"	},
-	{ "_NET_WM_STRUT_PARTIAL"	},
-	{ "_NET_WM_STRUT"		},
-	{ "_DECHINUS_SELTAGS"		},
-	{ "_NET_WM_NAME"		},
-	{ "_NET_WM_STATE"		},
-	{ "_NET_WM_STATE_FULLSCREEN"	},
-	{ "_NET_WM_STATE_MODAL"		},
-	{ "_NET_WM_STATE_HIDDEN"	},
-	{ "_NET_SUPPORTING_WM_CHECK"	},
-	{ "_NET_CLOSE_WINDOW" 		},
-	{ "UTF8_STRING"			},
-	{ "_NET_SUPPORTED"		},
-	{ "WM_PROTOCOLS"		},
-	{ "WM_DELETE_WINDOW"		},
-	{ "WM_NAME"			},
-	{ "WM_STATE"			},
-	{ "WM_CHANGE_STATE"		},
-	{ "WM_TAKE_FOCUS"		},
-	{ "_MOTIF_WM_HINTS"		},
+/* Optimized 1D array to fix compiler warnings */
+const char *atomnames[NATOMS] = {
+	"_NET_CLIENT_LIST",
+	"_NET_ACTIVE_WINDOW",
+	"_NET_WM_DESKTOP",
+	"_NET_NUMBER_OF_DESKTOPS",
+	"_NET_DESKTOP_NAMES",
+	"_NET_CURRENT_DESKTOP",
+	"_DECHINUS_LAYOUT",
+	"_NET_WORKAREA",
+	"_NET_CLIENT_LIST_STACKING",
+	"_NET_WM_WINDOW_OPACITY",
+	"_NET_WM_WINDOW_TYPE",
+	"_NET_WM_WINDOW_TYPE_DESKTOP",
+	"_NET_WM_WINDOW_TYPE_DOCK",
+	"_NET_WM_WINDOW_TYPE_DIALOG",
+	"_NET_WM_STRUT_PARTIAL",
+	"_NET_WM_STRUT",
+	"_DECHINUS_SELTAGS",
+	"_NET_WM_NAME",
+	"_NET_WM_STATE",
+	"_NET_WM_STATE_FULLSCREEN",
+	"_NET_WM_STATE_MODAL",
+	"_NET_WM_STATE_HIDDEN",
+	"_NET_SUPPORTING_WM_CHECK",
+	"_NET_CLOSE_WINDOW",
+	"UTF8_STRING",
+	"_NET_SUPPORTED",
+	"WM_PROTOCOLS",
+	"WM_DELETE_WINDOW",
+	"WM_NAME",
+	"WM_STATE",
+	"WM_CHANGE_STATE",
+	"WM_TAKE_FOCUS",
+	"_MOTIF_WM_HINTS",
 };
 
 #define _NET_WM_STATE_REMOVE	0
@@ -67,7 +67,7 @@ initewmh(void) {
 	Window win;
 
 	for (i = 0; i < NATOMS; i++)
-		atom[i] = XInternAtom(dpy, atomnames[i][0], False);
+		atom[i] = XInternAtom(dpy, atomnames[i], False);
 	XChangeProperty(dpy, root,
 	    atom[Supported], XA_ATOM, 32,
 	    PropModeReplace, (unsigned char *) atom, NATOMS);
@@ -84,9 +84,12 @@ initewmh(void) {
 
 void
 update_dechinus_layout_name(void *p) {
+	Monitor *m = curmonitor();
+	if (!m) return;
+
 	XChangeProperty(dpy, root, atom[ELayout],
 	    XA_STRING, 8, PropModeReplace,
-	    (const unsigned char *) &views[curmontag].layout->symbol, 1L);
+	    (const unsigned char *) &views[m->curtag].layout->symbol, 1L);
 }
 
 void
@@ -127,20 +130,22 @@ ewmh_update_net_number_of_desktops(void *p) {
 
 void
 ewmh_update_net_current_desktop(void *p) {
-	Monitor *m;
+	Monitor *m = curmonitor();
 	unsigned long *seltags;
 	unsigned int i;
 
+	if (!m) return;
+
 	seltags = emallocz(ntags * sizeof(unsigned long));
-	for (m = monitors; m != NULL; m = m->next) {
+	for (Monitor *it = monitors; it != NULL; it = it->next) {
 		for (i = 0; i < ntags; i++)
-			seltags[i] |= m->seltags[i];
+			seltags[i] |= it->seltags[i];
 	}
 	XChangeProperty(dpy, root,
 	    atom[ESelTags], XA_CARDINAL, 32, PropModeReplace,
 	    (unsigned char *) seltags, ntags);
 	XChangeProperty(dpy, root, atom[CurDesk], XA_CARDINAL, 32,
-	    PropModeReplace, (unsigned char *) &curmontag, 1);
+	    PropModeReplace, (unsigned char *) &(m->curtag), 1);
 	update_dechinus_layout_name(NULL);
 	free(seltags);
 }
@@ -160,6 +165,8 @@ ewmh_update_net_work_area(void *p) {
 	unsigned long *geoms;
 	Monitor *m = monitors;
 	int i, x, y, w, h;
+
+	if (!m) return;
 
 	geoms = malloc(sizeof(unsigned long)*4*ntags);
 	x = m->wax - m->sx;
@@ -238,6 +245,7 @@ mwm_process_atom(Client *c) {
 void
 ewmh_process_state_atom(Client *c, Atom state, int set) {
 	CARD32 data[2];
+	Monitor *m = curmonitor();
 
 	data[1] = None;
 	if (state == atom[WindowStateFs]) {
@@ -258,9 +266,7 @@ ewmh_process_state_atom(Client *c, Atom state, int set) {
 		}
 		XChangeProperty(dpy, c->win, atom[WindowState], XA_ATOM, 32,
 		    PropModeReplace, (unsigned char *) data, 2);
-		DPRINT;
-		arrange(curmonitor());
-		DPRINTF("%s: x%d y%d w%d h%d\n", c->name, c->x, c->y, c->w, c->h);
+		if (m) arrange(m);
 	}
 	if (state == atom[WindowStateModal])
 		focus(c);
@@ -270,6 +276,7 @@ void
 clientmessage(XEvent *e) {
 	XClientMessageEvent *ev = &e->xclient;
 	Client *c;
+	Monitor *m = curmonitor();
 
 	if (ev->message_type == atom[CloseWindow]) {
 		if ((c = getclient(ev->window, clients, ClientWindow)))
@@ -279,7 +286,7 @@ clientmessage(XEvent *e) {
 		if ((c = getclient(ev->window, clients, ClientWindow))) {
 				c->isicon = False;
 				focus(c);
-				arrange(curmonitor());
+				if (m) arrange(m);
 		}
 	} else if (ev->message_type == atom[CurDesk]) {
 		view(tags[ev->data.l[0]]);

@@ -49,23 +49,25 @@ install: all
 	@mkdir -p ${DESTDIR}${BINPREFIX}
 	@cp -f dewm ${DESTDIR}${BINPREFIX}
 	@chmod 755 ${DESTDIR}${BINPREFIX}/dewm
-	@echo installing configuration file and pixmaps to ${DESTDIR}${CONFPREFIX}/dewm
+	@echo installing configuration file and pixmaps to ${DESTDIR}${CONFPREFIX}
 	@mkdir -p ${DESTDIR}${CONFPREFIX}
 	@cp dewmrc ${DESTDIR}${CONFPREFIX}/dewmrc
-	@cp ${PIXMAPS} ${DESTDIR}${CONFPREFIX}/dewm
+	@cp ${PIXMAPS} ${DESTDIR}${CONFPREFIX}
 	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
-	@sed "s/VERSION/${VERSION}/g;s|CONFDIR|${DESTDIR}${CONF}|g" < echinus.1 > ${DESTDIR}${MANPREFIX}/man1/dewm.1
+	@sed "s/VERSION/${VERSION}/g;s|CONFDIR|${DESTDIR}${CONF}|g" < dechinus.1 > ${DESTDIR}${MANPREFIX}/man1/dewm.1
 	@echo installing README to ${DESTDIR}${DOCPREFIX}/dewm
 	@mkdir -p ${DESTDIR}${DOCPREFIX}/dewm
 	@sed "s|CONFDIR|${CONF}|" < README.md > ${DESTDIR}${DOCPREFIX}/dewm/README.md
 
 uninstall:
-	@echo removing executable file from ${DESTDIR}${BINPREFIX}/bin
-	@rm -f ${DESTDIR}${BINPREFIX}/bin/dewm
+	@echo removing executable file from ${DESTDIR}${BINPREFIX}
+	@rm -f ${DESTDIR}${BINPREFIX}/dewm
 	@echo removing manual page from ${DESTDIR}${MANPREFIX}/man1
 	@rm -f ${DESTDIR}${MANPREFIX}/man1/dewm.1
 	@echo removing configuration file and pixmaps from ${DESTDIR}${CONFPREFIX}
 	@rm -rf ${DESTDIR}${CONFPREFIX}
+	@echo removing documentation from  ${DESRDIR}${DOCPREFIX}/dewm
+	@rm -rf ${DESRDIR}${DOCPREFIX}/dewm
 
 .PHONY: all options clean dist install uninstall

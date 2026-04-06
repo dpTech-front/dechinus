@@ -227,8 +227,10 @@ static unsigned long
 getcolor(const char *colstr) {
 	XColor color;
 
-	if (!XAllocNamedColor(dpy, DefaultColormap(dpy, screen), colstr, &color, &color))
-		eprint("error, cannot allocate color '%s'\n", colstr);
+	if (!XAllocNamedColor(dpy, DefaultColormap(dpy, screen), colstr, &color, &color)) {
+		fprintf(stderr, "dewm: error, cannot allocate color '%s', falling back to black\n", colstr);
+		return BlackPixel(dpy, screen);
+	}
 	return color.pixel;
 }
 

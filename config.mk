@@ -1,12 +1,19 @@
 # Dechinus WM version
 VERSION = 0.1.0
 
+# Real User's home detection
+ifeq ($(SUDO_USER),)
+	REAL_HOME = ${HOME}
+else
+	REAL_HOME = $(shell eval echo ~${SUDO_USER})
+endif
+
 # installation paths 
 PREFIX?= /usr/local
 BINPREFIX?= ${PREFIX}/bin
 MANPREFIX?= ${PREFIX}/share/man
 DOCPREFIX?= ${PREFIX}/share/doc
-CONFPREFIX?= ${HOME}/.config/dewm
+CONFPREFIX?= ${REAL_HOME}/.config/dewm
 CONF?= ${CONFPREFIX}
 
 # X11 Paths
