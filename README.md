@@ -1,4 +1,4 @@
-# DechinusWM 
+# Dechinus WM 
 > The Spiky, Professional Tiling Window Manager.
 
 ![Captain Dechinus](assets/captain-dechinus.svg)
