@@ -6,7 +6,7 @@ PREFIX?= /usr/local
 BINPREFIX?= ${PREFIX}/bin
 MANPREFIX?= ${PREFIX}/share/man
 DOCPREFIX?= ${PREFIX}/share/doc
-CONFPREFIX?= ${HOME}/.config/dechinus
+CONFPREFIX?= ${HOME}/.config/dewm
 CONF?= ${CONFPREFIX}
 
 # X11 Paths

@@ -13,7 +13,7 @@
 #include <X11/Xproto.h>
 #include <X11/Xutil.h>
 #include <X11/Xft/Xft.h>
-#include "echinus.h"
+#include "dechinus.h"
 #include "config.h"
 
 Atom atom[NATOMS];
@@ -26,7 +26,7 @@ const char *atomnames[NATOMS][1] = {
 	{ "_NET_NUMBER_OF_DESKTOPS"	},
 	{ "_NET_DESKTOP_NAMES"		},
 	{ "_NET_CURRENT_DESKTOP"	},
-	{ "_ECHINUS_LAYOUT"		},
+	{ "_DECHINUS_LAYOUT"		},
 	{ "_NET_WORKAREA"		},
 	{ "_NET_CLIENT_LIST_STACKING"	},
 	{ "_NET_WM_WINDOW_OPACITY"	},
@@ -36,7 +36,7 @@ const char *atomnames[NATOMS][1] = {
 	{ "_NET_WM_WINDOW_TYPE_DIALOG"	},
 	{ "_NET_WM_STRUT_PARTIAL"	},
 	{ "_NET_WM_STRUT"		},
-	{ "_ECHINUS_SELTAGS"		},
+	{ "_DECHINUS_SELTAGS"		},
 	{ "_NET_WM_NAME"		},
 	{ "_NET_WM_STATE"		},
 	{ "_NET_WM_STATE_FULLSCREEN"	},
@@ -62,7 +62,7 @@ const char *atomnames[NATOMS][1] = {
 void
 initewmh(void) {
 	int i;
-	char name[] = "echinus";
+	char name[] = "dechinus";
 	XSetWindowAttributes wa;
 	Window win;
 
@@ -83,7 +83,7 @@ initewmh(void) {
 }
 
 void
-update_echinus_layout_name(void *p) {
+update_dechinus_layout_name(void *p) {
 	XChangeProperty(dpy, root, atom[ELayout],
 	    XA_STRING, 8, PropModeReplace,
 	    (const unsigned char *) &views[curmontag].layout->symbol, 1L);
@@ -141,7 +141,7 @@ ewmh_update_net_current_desktop(void *p) {
 	    (unsigned char *) seltags, ntags);
 	XChangeProperty(dpy, root, atom[CurDesk], XA_CARDINAL, 32,
 	    PropModeReplace, (unsigned char *) &curmontag, 1);
-	update_echinus_layout_name(NULL);
+	update_dechinus_layout_name(NULL);
 	free(seltags);
 }
 
@@ -377,6 +377,6 @@ void (*updateatom[]) (void *) = {
 	[NumberOfDesk] = ewmh_update_net_number_of_desktops,
 	[DeskNames] = ewmh_update_net_desktop_names,
 	[CurDesk] = ewmh_update_net_current_desktop,
-	[ELayout] = update_echinus_layout_name,
+	[ELayout] = update_dechinus_layout_name,
 	[WorkArea] = ewmh_update_net_work_area,
 };

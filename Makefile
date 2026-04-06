@@ -9,8 +9,8 @@
 include config.mk
 
 PIXMAPS = close.xbm iconify.xbm max.xbm
-SRC = draw.c echinus.c ewmh.c parse.c
-HEADERS = config.h echinus.h
+SRC = draw.c dechinus.c ewmh.c parse.c
+HEADERS = config.h dechinus.h
 OBJ = ${SRC:.c=.o}
 
 all: options dewm ${HEADERS}
@@ -38,8 +38,8 @@ clean:
 dist: clean
 	@echo creating dist tarball
 	@mkdir -p dewm-${VERSION}
-	@cp -R LICENSE Makefile README config.mk \
-		echinus.1 echinusrc ${SRC} ${HEADERS} ${PIXMAPS} dewm-${VERSION}
+	@cp -R LICENSE Makefile README.md config.mk \
+		echinus.1 dewmrc ${SRC} ${HEADERS} ${PIXMAPS} dewm-${VERSION}
 	@tar -cf dewm-${VERSION}.tar dewm-${VERSION}
 	@gzip dewm-${VERSION}.tar
 	@rm -rf dewm-${VERSION}
@@ -50,15 +50,15 @@ install: all
 	@cp -f dewm ${DESTDIR}${BINPREFIX}
 	@chmod 755 ${DESTDIR}${BINPREFIX}/dewm
 	@echo installing configuration file and pixmaps to ${DESTDIR}${CONFPREFIX}/dewm
-	@mkdir -p ${DESTDIR}${CONFPREFIX}/dewm
-	@cp echinusrc ${DESTDIR}${CONFPREFIX}/dewm
+	@mkdir -p ${DESTDIR}${CONFPREFIX}
+	@cp dewmrc ${DESTDIR}${CONFPREFIX}/dewmrc
 	@cp ${PIXMAPS} ${DESTDIR}${CONFPREFIX}/dewm
 	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	@sed "s/VERSION/${VERSION}/g;s|CONFDIR|${DESTDIR}${CONF}|g" < echinus.1 > ${DESTDIR}${MANPREFIX}/man1/dewm.1
 	@echo installing README to ${DESTDIR}${DOCPREFIX}/dewm
 	@mkdir -p ${DESTDIR}${DOCPREFIX}/dewm
-	@sed "s|CONFDIR|${CONF}|" < README > ${DESTDIR}${DOCPREFIX}/dewm/README.md
+	@sed "s|CONFDIR|${CONF}|" < README.md > ${DESTDIR}${DOCPREFIX}/dewm/README.md
 
 uninstall:
 	@echo removing executable file from ${DESTDIR}${BINPREFIX}/bin

@@ -1,18 +1,19 @@
 .Dd $Mdocdate$
-.Dt ECHINUS 1
+.Dt DECHINUS 1
 .Os
 .Sh NAME
 .Nm echinus
 .Nd a lightweight window manager for X11
 .Sh SYNOPSIS
-.Nm echinus
+.Nm dewm
 .Bk -words
 .Op Fl v
 .Op Fl f Ar conf
 .Ek
 .Sh DESCRIPTION
 .Nm
-is a lightweight window manager for X based on dwm's source code.
+is a lightweight window manager for X, fork of echinus which 
+is based on dwm's source code.
 It manages windows in maximized, floating and tiled layouts.
 Either layout can be applied dynamically, optimizing the environment for the
 application in use and the task performed.
@@ -38,9 +39,9 @@ Specifies an alternative configuration file.
 By default,
 .Nm
 loads the configuration file from
-.Pa ~/.echinus/echinusrc,
+.Pa ~/.config/dewm/dewmrc,
 if present, then looks for the system-wide configuration file
-.Pa CONFDIR/echinusrc .
+.Pa CONFDIR/dewmrc .
 .El
 .Pp
 The following notation is used in this page:
@@ -129,7 +130,7 @@ Resizes current window while dragging.
 Tiled windows will be toggled to the floating state.
 .El
 .Sh CUSTOMIZATION
-The configuration file is a set of X resources (with a class of Echinus),
+The configuration file is a set of X resources (with a class of Dechinus),
 which are described in the sections below.
 .Pp
 Every relative path specified is relative to the directory in which the
@@ -315,20 +316,20 @@ View previous tag set.
 .Sh EXAMPLES
 To move a window five pixels to the right:
 .Pp
-.Dl Echinus*moveright: AS + l = +5 0 0 0
+.Dl Dechinus*moveright: AS + l = +5 0 0 0
 .Pp
 To resize a window five pixels down:
 .Pp
-.Dl Echinus*resizedecy: AS + v = 0 0 0 -5
+.Dl Dechinus*resizedecy: AS + v = 0 0 0 -5
 .Pp
 To make mplayer float and with a title by default:
-.Dl Echinus*rule0: Mplayer.* NULL 1 1
+.Dl Dechinus*rule0: Mplayer.* NULL 1 1
 .Pp
 To spawn an xterm when A + T is pressed:
-.Dl Echinus*spawn0: A + t = xterm
+.Dl Dechinus*spawn0: A + t = xterm
 .Pp
 To show the title centered and the close button on the right:
-.Dl Echinus*titlelayout: -T-C
+.Dl Dechinus*titlelayout: -T-C
 .Sh CONFORMING TO
 .Nm
 is partially EWMH (NetWM) compliant, so you can use your favourite panel or
@@ -340,4 +341,4 @@ pager.
 parsekey() doesn't handle non-alphanumeric keysyms.
 .Pp
 You should find lots of them. If you did please contact me, my mail is
-<polachok at gmail dot com>.
+<Daniel B. Prodigalidad's email or Github repo>.

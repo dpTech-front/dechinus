@@ -50,7 +50,7 @@
 #include <X11/extensions/Xrandr.h>
 #include <X11/extensions/randr.h>
 #endif
-#include "echinus.h"
+#include "dechinus.h"
 
 /* macros */
 #define BUTTONMASK		(ButtonPressMask | ButtonReleaseMask)
@@ -477,7 +477,7 @@ checkotherwm(void) {
 	XSelectInput(dpy, root, SubstructureRedirectMask);
 	XSync(dpy, False);
 	if (otherwm)
-		eprint("echinus: another window manager is already running\n");
+		eprint("dechinus: another window manager is already running\n");
 	XSync(dpy, False);
 	XSetErrorHandler(NULL);
 	xerrorxlib = XSetErrorHandler(xerror);
@@ -1869,8 +1869,8 @@ setup(char *conf) {
 	/* configuration files to open (%s gets converted to $HOME) */
 	const char *confs[] = {
 		conf,
-		"%s/.echinus/echinusrc",
-		SYSCONFPATH "/echinusrc",
+		"%s/.config/dewm/dewmrc",
+		SYSCONFPATH "/dewmrc",
 		NULL
 	};
 
@@ -1904,7 +1904,7 @@ setup(char *conf) {
 	if (!home)
 		*home = '/';
 	if (!getcwd(oldcwd, sizeof(oldcwd)))
-		eprint("echinus: getcwd error: %s\n", strerror(errno));
+		eprint("dechinus: getcwd error: %s\n", strerror(errno));
 
 	for (i = 0; confs[i] != NULL; i++) {
 		if (*confs[i] == '\0')
@@ -1921,7 +1921,7 @@ setup(char *conf) {
 			break;
 	}
 	if (!xrdb)
-		fprintf(stderr, "echinus: no configuration file found, using defaults\n");
+		fprintf(stderr, "dechinus: no configuration file found, using defaults\n");
 
 	/* init EWMH atom */
 	initewmh();
@@ -1978,7 +1978,7 @@ spawn(const char *arg) {
 				close(ConnectionNumber(dpy));
 			setsid();
 			execl(shell, shell, "-c", arg, (char *) NULL);
-			fprintf(stderr, "echinus: execl '%s -c %s'", shell, arg);
+			fprintf(stderr, "dechinus: execl '%s -c %s'", shell, arg);
 			perror(" failed");
 		}
 		exit(0);
@@ -2472,7 +2472,7 @@ xerror(Display * dsply, XErrorEvent * ee) {
 	    || (ee->request_code == X_CopyArea && ee->error_code == BadDrawable))
 		return 0;
 	fprintf(stderr,
-	    "echinus: fatal error: request code=%d, error code=%d\n",
+	    "dechinus: fatal error: request code=%d, error code=%d\n",
 	    ee->request_code, ee->error_code);
 	return xerrorxlib(dsply, ee);	/* may call exit */
 }
@@ -2591,13 +2591,13 @@ main(int argc, char *argv[]) {
 	if (argc == 3 && !strcmp("-f", argv[1]))
 		snprintf(conf, sizeof(conf), "%s", argv[2]);
 	else if (argc == 2 && !strcmp("-v", argv[1]))
-		eprint("echinus-" VERSION " (c) 2011 Alexander Polakov\n");
+		eprint("dechinus-" VERSION " (c) 2026 Daniel B. Prodigalidad\n");
 	else if (argc != 1)
-		eprint("usage: echinus [-v] [-f conf]\n");
+		eprint("usage: dewm [-v] [-f conf]\n");
 
 	setlocale(LC_CTYPE, "");
 	if (!(dpy = XOpenDisplay(0)))
-		eprint("echinus: cannot open display\n");
+		eprint("dechinus: cannot open display\n");
 	signal(SIGHUP, sighandler);
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, sighandler);
