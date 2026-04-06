@@ -1,78 +1,142 @@
-# Dechinus WM 
+# Dechinus WM
+
 > Sharp, minimal, and fast — a tiling window manager for X11.
 
 ![Captain Dechinus](assets/captain-dechinus.svg)
 
+---
+
 ## Overview
 
-**Dechinus WM (dewm)** is a lightweight tiling window manager for X11, forked from Echinus. It is designed for active maintenance, improved defaults, and a modern, consistent configuration experience.
+**Dechinus WM (`dewm`)** is a lightweight tiling window manager for X11, forked from Echinus and modernized for current Linux workflows.
+
+It focuses on **active maintenance**, **clean defaults**, and a **consistent configuration experience** while staying true to the simplicity of classic tiling WMs.
+
+---
 
 ## Features
 
-*   **XDG Base Directory Compliant:** Follows the modern `.config` dotfile standard.
-*   **Lightweight & Fast:** Minimal dependencies and high performance.
-*   **Fully Configurable:** Flexible layouts, gaps, titlebars, and modkeys.
-*   **Intelligent Installation:** The build system correctly identifies your user environment to automate setup without root-access errors.
+* **XDG Base Directory Compliant**
+  Uses `~/.config/dewm/` instead of cluttering the home directory.
+
+* **Lightweight & Fast**
+  Minimal dependencies with efficient runtime performance.
+
+* **Highly Configurable**
+  Customize layouts, gaps, titlebars, and keybindings via Xresources.
+
+* **Smart Installation**
+  Automatically detects the invoking user and deploys configuration safely — avoiding common root install issues.
+
+---
 
 ## Installation
 
 ### Dependencies
-`X11`, `Xft`, `pkg-config`. Optional for multihead setups: `libxrandr`.
+
+* `X11`
+* `Xft`
+* `pkg-config`
+* *(Optional)* `libxrandr` (for multi-monitor setups)
 
 ### Build & Install
+
 ```bash
-# Clone the repository
 git clone https://github.com/dpTech-front/dechinus.git
 cd dechinus
 
-# Build & install
 make
 sudo make install
 ```
 
-### Automated Environment Setup
-Unlike legacy window managers, **Dechinus** features a smart installer. When you run `sudo make install`, the system:
-1.  Installs the `dewm` binary to `/usr/local/bin`.
-2.  **Smart-Home Deploy:** Detects the original user and installs the default `dewmrc` and pixmap assets directly into your home folder at `~/.config/dewm/`.
+---
 
-> **Note:** There is no need to manually copy configuration files. Your initial environment is ready to use immediately after installation.
+## Automated Environment Setup
 
-## Running
+Unlike traditional window managers, **Dechinus includes an intelligent installer**.
 
-To start Dechinus WM, add the following to your `.xinitrc`:
+Running `sudo make install` will:
+
+1. Install the `dewm` binary to `/usr/local/bin`
+2. Detect the original user (via `SUDO_USER`)
+3. Deploy default configuration and assets to:
+
+```bash
+~/.config/dewm/
+```
+
+> No manual copying required — your environment is ready immediately.
+
+---
+
+## Running Dechinus
+
+Add this to your `.xinitrc`:
 
 ```bash
 exec dewm
 ```
 
-Alternatively, select **dewm** from your display manager.
+Or select **dewm** from your display manager.
+
+---
 
 ## Configuration
 
-### Main Settings
-Configuration is handled via X resources using the **Dechinus** class. Edit `~/.config/dewm/dewmrc` to customize:
+Dechinus uses **Xresources** for configuration.
 
-| Setting              | Description                                                                  | Example |
-| -------------------- | ---------------------------------------------------------------------------- | ------- |
-| `Dechinus*deflayout` | Default layout: i=ifloating, f=floating, t=tiled, b=bottomstack, m=maximized | `t`     |
-| `Dechinus*gap`       | Gap between windows (pixels)                                                 | `5`     |
-| `Dechinus*mwfact`    | Fraction of master area                                                      | `0.55`  |
-| `Dechinus*nmaster`   | Number of master clients                                                     | `1`     |
-| `Dechinus*sloppy`    | Focus behavior: 0=click, 1=sloppy floating, 2=sloppy all, 3=sloppy+raise     | `1`     |
-| `Dechinus*modkey`    | Modifier key: A=Alt, W=Win, S=Shift, C=Ctrl                                  | `W`     |
+Edit:
 
-### Title Settings
-*   `Dechinus*decoratetiled` – Show titlebars in tiled mode (1/0)
-*   `Dechinus*titlelayout` – Titlebar format (`"N  IMC"` for name, iconify, maximize, close)
+```bash
+~/.config/dewm/dewmrc
+```
+
+---
+
+### Core Settings
+
+| Setting              | Description                              | Example |
+| -------------------- | ---------------------------------------- | ------- |
+| `Dechinus*deflayout` | Default layout (`i`, `f`, `t`, `b`, `m`) | `t`     |
+| `Dechinus*gap`       | Window gaps (pixels)                     | `5`     |
+| `Dechinus*mwfact`    | Master area size ratio                   | `0.55`  |
+| `Dechinus*nmaster`   | Number of master windows                 | `1`     |
+| `Dechinus*sloppy`    | Focus mode (0–3)                         | `1`     |
+| `Dechinus*modkey`    | Modifier key (`A`, `W`, `S`, `C`)        | `W`     |
+
+---
+
+### Titlebar Settings
+
+* `Dechinus*decoratetiled` — Enable titlebars in tiled mode (`1` or `0`)
+* `Dechinus*titlelayout` — Titlebar format
+  Example: `"N  IMC"` (Name, Iconify, Maximize, Close)
+
+---
 
 ## Why Dechinus?
 
-Dechinus refined the classic tiling window manager experience by moving away from legacy home-directory clutter. It strictly follows modern Linux directory standards while ensuring the installation process is seamless for the end user.
+Dechinus modernizes the Echinus philosophy by:
+
+* Adopting **XDG standards**
+* Eliminating fragile manual setup steps
+* Providing a **clean, predictable user experience**
+
+It keeps the spirit of classic tiling WMs — but removes the friction.
+
+---
 
 ## Contributing
 
-Contributions are welcome! Fork, tweak layouts, fix bugs, and submit pull requests.
+Contributions are welcome.
+
+* Improve layouts
+* Fix bugs
+* Refine defaults
+* Submit pull requests
+
+---
 
 ## License
 
-**MIT License** — See [LICENSE](./LICENSE) for full details.
+**MIT License** — see [LICENSE](./LICENSE)
