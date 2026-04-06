@@ -1,17 +1,13 @@
 # Dechinus WM
-
 > Sharp, minimal, and fast — a tiling window manager for X11.
-
 ![Captain Dechinus](assets/captain-dechinus.svg)
 
 ---
-
 ## Overview
 
 **Dechinus WM (`dewm`)** is a lightweight tiling window manager for X11, forked from Echinus and modernized for current Linux workflows.
 
 It focuses on **active maintenance**, **clean defaults**, and a **consistent configuration experience** while staying true to the simplicity of classic tiling WMs.
-
 ---
 
 ## Features
@@ -112,21 +108,8 @@ Edit:
 * `Dechinus*titlelayout` — Titlebar format
   Example: `"N  IMC"` (Name, Iconify, Maximize, Close)
 
----
-
-## Why Dechinus?
-
-Dechinus modernizes the Echinus philosophy by:
-
-* Adopting **XDG standards**
-* Eliminating fragile manual setup steps
-* Providing a **clean, predictable user experience**
-
-It keeps the spirit of classic tiling WMs — but removes the friction.
-
----
-
-## Major Changes & Optimizations
+--
+## Why Dechinus?: Major Changes & Optimizations
 
 Dechinus is not just a rename; it includes several core improvements over the original Echinus source:
 
@@ -136,6 +119,8 @@ Dechinus is not just a rename; it includes several core improvements over the or
 *   **Stability Enhancements:** Added a color fallback system. If an invalid color is provided in the config, the WM now defaults to black instead of crashing the X session.
 *   **Clean EWMH Implementation:** Optimized Atom handling and fixed compiler warnings by refactoring 2D string arrays into standard 1D pointer lists.
 *   **Binary Synergy:** The binary name `dewm` and the config `dewmrc` are now unified for a more intuitive user experience.
+
+It keeps the spirit of classic tiling WMs — but removes the friction.
 
 ## Contributing
 
