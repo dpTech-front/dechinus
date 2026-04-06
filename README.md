@@ -1,25 +1,21 @@
 # Dechinus WM 
-> The Spiky, Professional Tiling Window Manager.
+> Sharp, minimal, and fast — a tiling window manager for X11.
 
 ![Captain Dechinus](assets/captain-dechinus.svg)
 
 ## Overview
 
-**Dechinus WM (dewm)** is a lightweight, tiling window manager for **X11**, forked from **Echinus**. It retains the original speed and minimalism, but adds:
+**Dechinus WM (dewm)** is a lightweight tiling window manager for X11, forked from Echinus.
 
-* **Active maintenance** and ongoing improvements
-* **Custom branding** (green urchin mascot)
-* **Updated defaults and better configurability**
-
-> Your mascot represents nimbleness, adaptability, and control — qualities that define Dechinus.
+It preserves the original simplicity and speed while introducing active maintenance,
+improved defaults, and a cleaner, more consistent configuration experience.
 
 ## Features
 
-* Lightweight & fast, minimal dependencies
-* Highly configurable layouts, gaps, titlebars, and modkeys
-* Panels and tagbars fully configurable
-* Portable setup: configurations stored in your home directory
-* Legacy of **Echinus** maintained, but actively improved
+* Lightweight and fast with minimal dependencies
+* Configurable layouts, gaps, titlebars, and modkeys
+* Customizable panels and tagbars
+* User configuration stored in `~/.config/dechinus`
 
 ## Installation
 
@@ -27,7 +23,7 @@ Dependencies: `X11`, `Xft`, `pkg-config`. Optional for multihead setups: `libxra
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/dechinus.git
+git clone https://github.com/dpTech-front/dechinus.git
 cd dechinus
 
 # Build & install
@@ -35,11 +31,21 @@ make
 sudo make install
 
 # Setup initial config
-mkdir -p ~/.dechinus
-cp -r CONFDIR ~/.dechinus
+mkdir -p ~/.config/dechinus
+cp -r CONFDIR ~/.config/dechinus
 ```
 
-> Adjust `~/.dechinus/dechinusrc` to set your layouts, gaps, and master window size.
+> Adjust `~/.config/dechinus/dewmrc` to set your layouts, gaps, and master window size.
+
+## Running
+
+To start Dechinus WM, add the following to your `.xinitrc`:
+
+```bash
+exec dewm
+```
+
+Alternatively, select **dewm** from your display manager.
 
 ## Configuration
 
@@ -65,6 +71,13 @@ Full options are in `config.h` and `dechinusrc`.
 
 * Fully configurable for status, time, CPU, etc.
 * Supports custom scripts and widgets.
+
+## Why Dechinus?
+
+Dechinus aims to keep the simplicity of classic tiling window managers
+while remaining actively maintained and improving usability over time.
+
+It avoids unnecessary complexity while refining defaults and consistency.
 
 ## Contributing
 
