@@ -20,8 +20,6 @@
 * **Smart Installation**
   Automatically detects the invoking user and deploys configuration safely — avoiding common root install issues.
 
----
-
 ## Installation
 
 ### Dependencies
@@ -41,8 +39,6 @@ make
 sudo make install
 ```
 
----
-
 ## Automated Environment Setup
 
 Unlike traditional window managers, **Dechinus includes an intelligent installer**.
@@ -59,8 +55,6 @@ Running `sudo make install` will:
 
 > No manual copying required — your environment is ready immediately.
 
----
-
 ## Running Dechinus
 
 Add this to your `.xinitrc`:
@@ -70,8 +64,6 @@ exec dewm
 ```
 
 Or select **dewm** from your display manager.
-
----
 
 ## Configuration
 
@@ -83,8 +75,6 @@ Edit:
 ~/.config/dewm/dewmrc
 ```
 
----
-
 ### Core Settings
 
 | Setting              | Description                              | Example |
@@ -95,8 +85,6 @@ Edit:
 | `Dechinus*nmaster`   | Number of master windows                 | `1`     |
 | `Dechinus*sloppy`    | Focus mode (0–3)                         | `1`     |
 | `Dechinus*modkey`    | Modifier key (`A`, `W`, `S`, `C`)        | `W`     |
-
----
 
 ### Titlebar Settings
 
@@ -126,8 +114,6 @@ Contributions are welcome.
 * Fix bugs
 * Refine defaults
 * Submit pull requests
-
----
 
 ## License
 
