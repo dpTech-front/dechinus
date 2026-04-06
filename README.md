@@ -1,8 +1,7 @@
 # Dechinus WM
-> Sharp, minimal, and fast — a tiling window manager for X11.
 ![Captain Dechinus](assets/captain-dechinus.svg)
+> Sharp, minimal, and fast — a tiling window manager for X11.
 
----
 ## Overview
 
 **Dechinus WM (`dewm`)** is a lightweight tiling window manager for X11, forked from Echinus and modernized for current Linux workflows.
