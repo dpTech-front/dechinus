@@ -126,6 +126,17 @@ It keeps the spirit of classic tiling WMs — but removes the friction.
 
 ---
 
+## Major Changes & Optimizations
+
+Dechinus is not just a rename; it includes several core improvements over the original Echinus source:
+
+*   **XDG Compliance:** Config moved from `~/.echinus` to `~/.config/dewm/` for a cleaner home directory.
+*   **Performance Optimization:** Removed legacy "Must Die" macros. Replaced redundant function calls to `curmonitor()` with explicit, high-performance monitor pointers across the entire source.
+*   **Smart Installation:** The build system intelligently detects the `SUDO_USER` to install configuration files into the correct user home directory, even when running with `sudo`.
+*   **Stability Enhancements:** Added a color fallback system. If an invalid color is provided in the config, the WM now defaults to black instead of crashing the X session.
+*   **Clean EWMH Implementation:** Optimized Atom handling and fixed compiler warnings by refactoring 2D string arrays into standard 1D pointer lists.
+*   **Binary Synergy:** The binary name `dewm` and the config `dewmrc` are now unified for a more intuitive user experience.
+
 ## Contributing
 
 Contributions are welcome.
