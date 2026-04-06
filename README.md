@@ -5,7 +5,7 @@
 
 ## Overview
 
-**Dechinus** is a lightweight, tiling window manager for **X11**, forked from **Echinus**. It retains the original speed and minimalism, but adds:
+**Dechinus WM (dewm)** is a lightweight, tiling window manager for **X11**, forked from **Echinus**. It retains the original speed and minimalism, but adds:
 
 * **Active maintenance** and ongoing improvements
 * **Custom branding** (green urchin mascot)
