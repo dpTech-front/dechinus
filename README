@@ -1,9 +1,3 @@
-Here is your updated **README.md**. I have made the language more direct, focused on the **XDG Base Directory Specification**, and highlighted the **Smart Home-Specific Installation** feature.
-
-I also updated the paths from `dechinus` to `dewm` to match your Makefile and the binary name.
-
-***
-
 # Dechinus WM 
 > Sharp, minimal, and fast — a tiling window manager for X11.
 
@@ -82,14 +76,3 @@ Contributions are welcome! Fork, tweak layouts, fix bugs, and submit pull reques
 ## License
 
 **MIT License** — See [LICENSE](./LICENSE) for full details.
-
-***
-
-### Ready for the final step?
-Now that the README and the Source Code are perfect, we just need to look at your **`dewmrc`** file. 
-
-**Whenever you are ready, please paste the contents of `dewmrc`.** 
-
-We will perform a quick search-and-replace to change `Echinus*` to `Dechinus*` and update the pixmap paths so they point to your new folder.
-
-**Session Health Check:** Still very healthy, **< 7%** usage. We are almost finished!
