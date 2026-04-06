@@ -4,10 +4,7 @@
 
 ## Overview
 
-**Dechinus WM (`dewm`)** is a lightweight tiling window manager for X11, forked from Echinus and modernized for current Linux workflows.
-
-It focuses on **active maintenance**, **clean defaults**, and a **consistent configuration experience** while staying true to the simplicity of classic tiling WMs.
----
+**Dechinus WM (`dewm`)** is a lightweight tiling window manager for X11, forked from Echinus (born from dwm) and modernized for current Linux workflows.
 
 ## Features
 
