@@ -26,7 +26,6 @@
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
 #include <X11/Xutil.h>
-#include <X11/Xresource.h>
 #include <X11/Xft/Xft.h>
 #ifdef XRANDR
 #include <X11/extensions/Xrandr.h>
@@ -144,9 +143,9 @@ void zoom(const char *arg);
 /* variables */
 char **cargv;
 Display *dpy;
+ConfigEntry *config = NULL;
 int screen;
 Window root;
-XrmDatabase xrdb;
 Bool otherwm;
 Bool running = True;
 Bool selscreen = True;
@@ -468,6 +467,7 @@ checkotherwm(void) {
 
 void
 cleanup(void) {
+	ConfigEntry *e;
 	while (stack) {
 		unban(stack);
 		unmanage(stack);
@@ -476,7 +476,10 @@ cleanup(void) {
 	free(keys);
 	initmonitors(NULL);
 	/* free resource database */
-	XrmDestroyDatabase(xrdb);
+	while (config) {
+		e = config; config = config->next;
+		free(e->key); free(e->val); free(e);
+	}
 	deinitstyle();
 	XUngrabKey(dpy, AnyKey, AnyModifier, root);
 	XFreeCursor(dpy, cursor[CurNormal]);
@@ -852,13 +855,9 @@ getstate(Window w) {
 
 const char *
 getresource(const char *resource, const char *defval) {
-	static char name[256], class[256], *type;
-	XrmValue value;
-	snprintf(name, sizeof(name), "%s.%s", RESNAME, resource);
-	snprintf(class, sizeof(class), "%s.%s", RESCLASS, resource);
-	XrmGetResource(xrdb, name, class, &type, &value);
-	if (value.addr)
-		return value.addr;
+	ConfigEntry *e;
+	for (e = config; e; e = e->next)
+		if (!strcmp(e->key, resource)) return e->val;
 	return defval;
 }
 
@@ -1591,16 +1590,17 @@ setup(char *conf) {
 	wa.event_mask = SubstructureRedirectMask | SubstructureNotifyMask | EnterWindowMask | LeaveWindowMask | StructureNotifyMask | ButtonPressMask | ButtonReleaseMask;
 	wa.cursor = cursor[CurNormal];
 	XChangeWindowAttributes(dpy, root, CWEventMask | CWCursor, &wa);
-	XrmInitialize();
 	home = getenv("HOME"); if (!home) home = "/";
 	if (!getcwd(oldcwd, sizeof(oldcwd))) eprint("dechinus: getcwd error\n");
 	for (i = 0; confs[i] != NULL; i++) {
 		if (*confs[i] == '\0') continue;
 		snprintf(conf, 255, confs[i], home);
-		slash = strrchr(conf, '/'); if (slash) { snprintf(path, slash - conf + 1, "%s", conf); chdir(path); }
-		if ((xrdb = XrmGetFileDatabase(conf))) break;
+		slash = strrchr(conf, '/');
+		if (slash) snprintf(path, slash - conf + 1, "%s", conf); chdir(path);
+		loadconfig(conf);
+		if (config) break;
 	}
-	if (!xrdb) fprintf(stderr, "dechinus: no config found\n");
+	if (!config) fprintf(stderr, "Dechinus: no config found, using defaults\n");
 	initewmh(); inittags(); initmonitors(NULL); initrules(); initkeys(); initlayouts();
 	updateatom[NumberOfDesk] (NULL); updateatom[DeskNames] (NULL); updateatom[CurDesk] (NULL);
 	grabkeys(); initstyle();

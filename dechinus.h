@@ -28,6 +28,13 @@ struct Monitor {
 	unsigned int curtag;
 };
 
+typedef struct ConfigEntry ConfigEntry;
+struct ConfigEntry {
+	char *key;
+	char *val;
+	ConfigEntry *next;
+};
+
 typedef struct {
 	void (*arrange) (Monitor * m);
 	char symbol;
@@ -167,6 +174,7 @@ void zoom(const char *arg);
 /* parse.c */
 void initrules();
 int initkeys();
+void loadconfig(const char *file);
 
 /* draw.c */
 void drawclient(Client * c);
@@ -212,3 +220,4 @@ extern Rule **rules;
 extern Layout layouts[];
 extern unsigned int modkey;
 extern View *views;
+extern ConfigEntry *config;

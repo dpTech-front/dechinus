@@ -27,7 +27,7 @@ Dechinus*modkey: A
 
 Dechinus*deflayout: f
 
-Dechinus*gap: 16
+Dechinus*gap: 4
 
 Dechinus*tags.number: 7
 Dechinus*tags.name0: main

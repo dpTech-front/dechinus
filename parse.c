@@ -2,6 +2,7 @@
  *  dechinus wm (form of echinus) - maintainance: Daniel B. Prodigalidad
  *  this file contains code to parse rules and keybindings
  */
+#define _GNU_SOURCE
 #include <regex.h>
 #include <ctype.h>
 #include <X11/Xatom.h>
@@ -238,4 +239,22 @@ initrules() {
 	}
 	rules = realloc(rules, nrules * sizeof(Rule *));
 	compileregs();
+}
+void
+loadconfig(const char *file) {
+	FILE *f; char buf[1024], *p, *key, *val; ConfigEntry *e;
+	if (!(f = fopen(file, "r"))) return;
+	while (fgets(buf, sizeof(buf), f)) {
+		for (p = buf; isspace(*p); p++);
+		if (*p == '#' || *p == '\0') continue;
+		if (!(p = strchr(buf, ':'))) continue;
+		*p = '\0'; val = p + 1; key = buf;
+		if (strncmp(key, RESCLASS, strlen(RESCLASS)) == 0) key += strlen(RESCLASS) + 1;
+		else if (strncmp(key, RESNAME, strlen(RESNAME)) == 0) key += strlen(RESNAME) + 1;
+		while (isspace(*val)) val++;
+		if ((p = strchr(val, '\n'))) *p = '\0';
+		e = emallocz(sizeof(ConfigEntry));
+		e->key = strdup(key); e->val = strdup(val); e->next = config; config = e;
+	} 
+	fclose(f);
 }
