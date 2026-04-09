@@ -1,66 +1,49 @@
 # Dechinus WM
 ![Captain Dechinus](assets/captain-dechinus.svg)
-> **Stay Sharp.** The minimalist sea urchin of window managers.
+> **Stay Sharp. Stay Lean.** A self-sustained, scriptable window manager for X11.
 
-## The Dechinus Identity: A Specialized Organism
-Dechinus is designed like a sea urchin: a compact, specialized organism with sharp "spines" (reparenting frames) that define its space. It is a **Dynamic Fusion** window manager that provides the structured protection of a desktop environment with the raw speed of a tiling engine.
+## The Ecosystem
+To keep Dechinus minimal and efficient, the project is divided into three distinct parts:
 
-In an ecosystem of bloated desktops, Dechinus remains small and sharp—providing a core engine of ~1,900 lines of C that manages windows with surgical precision while respecting your choice of external tools.
+*   **`dewm` [The Manager]:** The core window manager binary. It handles tiling logic, reparenting frames, and input events.
+*   **`dewmrc` [The DNA]:** The configuration file (`~/.config/dewm/dewmrc`). It defines your static settings like colors, layouts, and initial rules.
+*   **`dewmc` [The Controller]:** A lightweight CLI utility used to send real-time commands to the manager from scripts, panels, or the terminal.
 
-## Core Philosophy: The Sharp Edge
-*   **The Spines (Reparenting):** Dechinus provides native titlebars and frames. These "spines" give your windows handles for mouse interaction, allowing you to grab, move, and manage windows without losing the minimalist aesthetic.
-*   **Sharp Tiling:** A mathematical tiling stack that cuts through workspace clutter.
-*   **Fluid Fusion:** Seamlessly transition from rigid, spine-hidden tiling to free-flowing floating modes where the titlebars emerge for precise control.
-*   **Urchin Synergy:** Dechinus does not try to be a panel or a system tray. It is designed to co-exist in perfect synergy with third-party tools like **Polybar**, **Lemonbar**, or **Tint2**, respecting the "Work Area" defined by your chosen bar.
-*   **Hybrid Control:** Optimized for the "Keyboard-First, Mouse-Friendly" user. Use the keyboard to snap windows into place, or use the mouse to interact with the titlebar widgets.
+## The Identity: Self-Sustained Minimalism
+Dechinus bridges the gap between the "Manual" world (keyboard shortcuts) and the "Automated" world (shell scripts). It is a **Self-Sustained Monolith**—it handles its own keys internally for maximum speed, but exposes its "Command Spines" to the outside world for ultimate flexibility.
 
-## Features
+## Core Philosophy
+*   **Dynamic Fusion:** Elegant reparented titlebars for floating windows; sharp, chrome-less borders for tiling.
+*   **The 2K Flex:** A complete engine with multi-monitor support and scriptable IPC in ~1,900 lines of C.
+*   **Unix Synergy:** Full **_NET_WM_STRUT_PARTIAL** support to respect third-party panels like Polybar or Tint2.
+*   **Zero-Overhead Scriptability:** Get the power of a modular WM with the footprint of a standalone binary.
 
-*   **XDG Base Directory Compliant** — Configuration stays organized in `~/.config/dewm/`.
-*   **The 2K Flex** — A complete, reparenting engine with multi-monitor support (XRandR) in under 2,000 lines of code.
-*   **Marine-Grade Performance** — High-performance event handling with minimal CPU and memory overhead.
-*   **Smart Deployment** — An intelligent build system that detects the user and deploys `dewmrc` to the home directory automatically during `make install`.
-*   **Xresources Configuration** — Change gaps, colors, titlebars, and layouts instantly via the `dewmrc` file without recompiling.
-*   **Stabilized DNA** — Features a color fallback system and refactored Atom handling to ensure your session remains stable even if your configuration has errors.
+## Why `dewmc`?
+While `dewm` handles your keyboard shortcuts internally, the `dewmc` utility allows the WM to "hear" the rest of your system:
+*   **Automate:** Write a "Movie Mode" script that switches tags and sets layouts with one command.
+*   **Integrate:** Make your status bar clickable by having it trigger `dewmc layout tile`.
+*   **Override:** Change gaps or toggle titlebars on the fly without editing your `dewmrc`.
 
 ## Installation
-
-### Dependencies
-*   `X11` (libX11)
-*   `Xft` (for anti-aliased text)
-*   `pkg-config`
-*   `libxrandr` (for multi-monitor support)
-
-### Build & Install
 ```bash
-git clone https://github.com/dpTech-front/dechinus.git
-cd dechinus
 make
 sudo make install
 ```
-*The installer automatically deploys the default configuration to `~/.config/dewm/` for the original user.*
+*The installer automatically deploys the `dewmrc` template to `~/.config/dewm/`.*
 
-## Configuration
-Dechinus is configured via **Xresources** syntax in `~/.config/dewm/dewmrc`.
-
-### Layout Symbols
-*   `i` — **Iconify** (Floating/Manual)
-*   `t` — **Tile** (Classic Master/Stack)
-*   `b` — **BStack** (Bottom Stack)
-*   `m` — **Monocle** (Full Screen Focus)
-*   `f` — **Floating** (Freeform Overlap)
-
-## Optimizations & Performance
-Dechinus is a sharpened version of its core logic:
-*   **Code Purge:** All redundant logic and legacy macros have been stripped away for a cleaner, faster execution path.
-*   **Refined Event Handling:** Replaced global monitor lookups with explicit pointer passing, significantly speeding up window management on multi-screen setups.
-*   **Memory Integrity:** Refactored internal string handling to ensure long-term stability and zero compiler warnings.
+## Usage & Control
+*   **Configure:** Edit `~/.config/dewm/dewmrc`.
+*   **Control:** Use the CLI for dynamic changes:
+    *   `dewmc view 2` (Switch to tag 2)
+    *   `dewmc layout monocle` (Change layout)
+    *   `dewmc set gap 10` (Change gaps live)
 
 ## Contributing
-Help us sharpen the spines.
+We value "Suckless" efficiency. Keep the core binary small, the logic sharp, and the organism independent.
 1. Fork the repo.
-2. Keep it minimal (< 2k lines).
-3. Submit a PR.
+2. Submit a PR.
 
 ## License
 **MIT License** — See [LICENSE](./LICENSE)
+
+---
