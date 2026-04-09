@@ -1,51 +1,63 @@
-# Dechinus WM
-![Captain Dechinus](assets/captain-dechinus.svg)
-> **Stay Sharp. Stay Lean.** A self-sustained, reparenting window manager for X11.
+### 📝 DECHINUS WM CONSOLIDATED MASTER TODO LIST
 
-## The Identity: Self-Sustained Minimalism
-**Dechinus (`dewm`)** is designed as a single, high-performance organism. It follows the Suckless philosophy of being a standalone binary while incorporating the Unix efficiency of being scriptable. It is the only window manager that provides **Reparenting (Titlebars)** and **Tiling** in a single C file under 2,000 lines without requiring external daemons to function.
+#### 🟢 PHASE 0: THE SEA URCHIN FOUNDATION (v0.1.0)
+1.  **Branding Overhaul:** Complete rename from Echinus to Dechinus/dewm across all source files, headers, and config files.
+2.  **Binary & Config Renaming:** Set primary binary output to `dewm` and default configuration filename to `dewmrc`.
+3.  **XDG Base Directory Compliance:** Relocate default configuration search path from `~/.echinus` to `$HOME/.config/dewm/dewmrc`.
+4.  **Macro Cleanup:** Delete "Must Die" macros; replace with explicit `Monitor *m` pointers across the entire source to eliminate global lookup overhead.
+5.  **EWMH Sanitization:** Refactor `atomnames` into a 1D pointer list to eliminate compiler warnings.
+6.  **Stability Optimization:** Implement a hard fallback to `BlackPixel` in `getcolor` to prevent WM crashes when the user provides invalid hex codes.
+7.  **Smart Installation Logic:** Refactor Makefile to detect `$SUDO_USER` to ensure configuration and assets are installed to the actual user's home directory.
 
-## Core Philosophy: The Unified Urchin
-*   **Single-Binary Focus:** No external key-daemons or complex IPC sockets. Everything you need to manage windows is contained within the `dewm` binary, keeping memory usage at the absolute minimum.
-*   **The Command Spines:** While self-sustained, Dechinus exposes X11 Atoms that allow it to be controlled via external scripts. It is a "Scriptable Monolith"—efficiency without the overhead of modularity.
-*   **Chrome-less Tiling:** Spines (titlebars) retract during tiling to maximize work space. Only a sharp, configurable border remains.
-*   **Elegant Floating:** Spines emerge when a window floats, providing beautiful, reparented decorations and mouse-driven widgets.
-*   **Panel Synergy:** Explicitly respects third-party panels through modern **_NET_WM_STRUT_PARTIAL** support. It doesn't try to be a panel; it provides the space for one.
+#### 🏗️ PHASE 1: INDEPENDENCE (THE SELF-SUSTAINED ORGANISM) (v0.2.0)
+8.  **Native Parser (The Suckless Parser):** Rip out `<X11/Xresource.h>` and all `Xrm` library dependencies to remove XRDB as a requirement.
+9.  **Native C Reader Implementation:** Build a lightweight `FILE*` reader in `parse.c` using `fgets` and `sscanf` to parse `key: value` syntax directly.
+10. **Parser Fallback Logic:** If `~/.config/dewm/dewmrc` is missing, the parser must default to internal hard-coded values.
+11. **Internal Key-Value Struct:** Update `getresource()` to pull values from an internal memory struct for zero-latency lookups.
+12. **Variable Support:** Implement support for a `modkey` variable in the config to be set once and referenced for all bindings.
+13. **RegEx Pre-compilation Logic:** Integrate a POSIX RegEx subsystem into the parser to optimize window rule matching (`applyrules`) during initialization.
+14. **Binary Unification:** Perform a final audit to ensure all remaining "echinus" strings in manual pages, error logs, and comments are replaced.
 
-## Efficiency Flex
-*   **Memory:** < 2MB RSS.
-*   **Code:** ~1,900 lines of C.
-*   **Speed:** Direct X11 event handling with zero IPC latency.
-*   **Independence:** No `Xresources` (XRDB) required; features a native C configuration parser.
+#### 🧠 PHASE 2: BIOLOGICAL INTELLIGENCE (WINDOW LOGIC) (v0.2.0)
+15. **Multi-Monitor Tag Swapping:** Adapt `view()` logic so that attempting to view a tag already active on another monitor swaps the tags between the two monitors to prevent duplicate views and "ghost" tags.
+16. **Tag Inheritance Logic:** Implement `memcpy` of tags for transient windows (dialogs/pickers) in `manage()` so they automatically spawn on their parent's workspace.
+    *   *Snippet:* `memcpy(c->tags, cm->seltags, ntags * sizeof(cm->seltags[0]));`
+17. **Precision Resize (PAspect):** Implement `PAspect` ratio handling in `resize()` and `updatesizehints()` to properly support video players (mpv/mplayer) and eliminate black-bar gaps.
+18. **Layered Stacking Hierarchy:** Refactor `restack()` to enforce a strict 4-layer visual hierarchy: `Floating Windows > Docks/Bastards > Tiled Windows > Desktop`.
+19. **Stack Focus Preservation:** Hard-code `attachaside` logic so new windows attach as slaves at the end of the stack, keeping the current Master window in focus.
+20. **Reparent Safety Implementation:** Integrate `reparentnotify()` to detect if a window is stolen/moved by an external process and call `unmanage()` to avoid orphaned frames or ghost pointers.
 
-## Features
-*   **Hybrid Tiling/Floating:** Mathematical precision meets desktop elegance.
-*   **Smart Multi-Monitor Logic:** Tag swapping between screens to prevent duplicate views and "ghost" tags.
-*   **XDG Base Directory Compliant:** Keeps your `$HOME` clean.
-*   **Intelligent Installer:** Automatically deploys `dewmrc` to the correct user directory.
+#### 📐 PHASE 3: PANEL SYNERGY (EWMH & STRUTS) (v0.2.0)
+21. **Precision Struts:** Refine `updategeom()` to calculate the Working Area (`wa`) using absolute `min/max` bounds across all monitors to prevent panel/window overlap.
+22. **Strut Partial Support:** Integrate modern `_NET_WM_STRUT_PARTIAL` support for better compatibility with panels like Polybar, Tint2, and Lemonbar.
+    *   *Snippet:* `state = (unsigned long*)getatom(c->win, atom[StrutPartial], &n);`
+23. **EWMH Communication:** Ensure the WM emits `_NET_CLIENT_LIST`, `_NET_ACTIVE_WINDOW`, and `_NET_CURRENT_DESKTOP` updates on every window or tag change.
+24. **Hard-Tiling Math Refactor:** Rewrite `tile()` and `bstack()` in `dechinus.c` using pure integer division to eliminate 1px rounding gaps without extra overhead.
+25. **Configurable Window Gaps:** Update tiling calculations to respect `options.gap` while maintaining strict pixel-perfect integer alignment.
 
-## Installation
-```bash
-make
-sudo make install
-```
-*Add `exec dewm` to your `.xinitrc`.*
+#### 🎨 PHASE 4: DYNAMIC SPINES (THE FUSION UI) (v0.2.0)
+26. **Dynamic Titlebar Mapping:** Update `updateframe()` to map and draw titlebars **ONLY** if `isfloating == True`. 
+27. **Chrome-less Tiling:** Force Titlebar Height (`c->th`) to `0` for all tiled windows; tiled windows must remain chrome-less to maximize space.
+28. **Titlebar Element Rendering:** Implement the flexible `drawelement` system (N, I, M, C, T) specifically for floating window titlebar rendering.
+29. **Execution Bypass:** Update `draw.c` so tiled windows completely skip the `drawclient` code path to save CPU cycles.
+30. **Border Consistency:** Ensure tiled windows maintain a configurable border (e.g., 1px) even when the titlebar is removed.
 
-## Contributing
-We value "Suckless" efficiency. Every new feature must be implemented with the smallest possible footprint.
-1. Fork the repo.
-2. Keep the logic internal and the code lean.
-3. Submit a PR.
+#### ⚡ PHASE 5: THE COMMAND SPINES (IPC & REFLEXES) (v0.3.0)
+31. **X11 Atom Listener:** Implement a `ClientMessage` handler in `dechinus.c`. This allows `dewm` to respond to external signals sent via X Atoms.
+32. **The `dewmc` Utility:** Build a minimalist (<100 lines) CLI tool that sends Atom messages to trigger internal C functions (e.g., `dewmc view 1`, `dewmc layout tile`).
+33. **Scriptable Monolith:** Ensure all core internal functions (setlayout, view, tag, kill) are exposed to the Atom Listener for zero-overhead scriptability.
+34. **Dynamic Overrides:** Allow `dewmc` to change runtime variables (Gap size, Master factor) instantly without editing the `dewmrc` file.
+35. **Event Hooks:** Add the ability to execute an external shell script on specific events (e.g., `on_tag_change`) to allow for dynamic wallpaper or panel updates.
 
-## License
-**MIT License** — See [LICENSE](./LICENSE)
+#### 🧹 PHASE 6: MAINTENANCE & ECOSYSTEM (STABLE RELEASE)
+36. **Integrated Tooling Modernization:** Adapt the harvested `tests/ewmhpanel.c` utility and its Makefile to work with the modernized `dechinus.h` headers.
+37. **Makefile Hardening:** Ensure robust directory creation and permission handling for `~/.config/dewm/` across different Linux distributions.
+38. **Final Branch Pruning:** Once logic extraction is verified, delete audited branches: `gamaral`, `abs`, `bububu`, `recursive`, `reparent`, `testing`, `tint2`, and `title`.
+39. **Release Tagging:** Perform a final rebase of the master branch and tag as **Dechinus v0.2.0-stable**.
 
-***
-
-### Why this is the right path:
-If you split it into many components, you lose the **"Sea Urchin"** metaphor (one shell, one organism). By keeping the keys internal but adding the "Command Spines" (Atoms), you get:
-1.  **Ease of use:** It works perfectly as soon as you install it.
-2.  **Advanced power:** You can still write a bash script to change layouts or automate your desktop.
-3.  **Maximum "Suckless" points:** You prove that you don't need 50,000 lines of code or 5 different processes to have a modern, scriptable desktop.
-
-**Does this "Self-Sustained but Scriptable" approach fit your vision better?**
+### Identity Checklist:
+*   **Organism:** Self-sustained monolith (handles its own keys).
+*   **Spines:** Modulary scriptable via `dewmc` (reuses internal C functions).
+*   **Fusion:** Chrome-less Tiling + Elegant Reparented Floating.
+*   **Synergy:** Respects third-party panels via modern Strut Partial support.
+*   **Suckless:** ~1,900 SLOC, C-based, zero extra background daemons.
