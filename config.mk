@@ -1,5 +1,5 @@
 # Dechinus WM version
-VERSION = 0.1.0
+VERSION = 0.2.0-dev
 
 # Real User's home detection
 ifeq ($(SUDO_USER),)
