@@ -1,120 +1,66 @@
 # Dechinus WM
 ![Captain Dechinus](assets/captain-dechinus.svg)
-> Sharp, minimal, and fast — a tiling window manager for X11.
+> **Stay Sharp.** The minimalist sea urchin of window managers.
 
-## Overview
+## The Dechinus Identity: A Specialized Organism
+Dechinus is designed like a sea urchin: a compact, specialized organism with sharp "spines" (reparenting frames) that define its space. It is a **Dynamic Fusion** window manager that provides the structured protection of a desktop environment with the raw speed of a tiling engine.
 
-**Dechinus WM (`dewm`)** is a lightweight tiling window manager for X11, forked from Echinus (born from dwm) and modernized for current Linux workflows.
+In an ecosystem of bloated desktops, Dechinus remains small and sharp—providing a core engine of ~1,900 lines of C that manages windows with surgical precision while respecting your choice of external tools.
+
+## Core Philosophy: The Sharp Edge
+*   **The Spines (Reparenting):** Dechinus provides native titlebars and frames. These "spines" give your windows handles for mouse interaction, allowing you to grab, move, and manage windows without losing the minimalist aesthetic.
+*   **Sharp Tiling:** A mathematical tiling stack that cuts through workspace clutter.
+*   **Fluid Fusion:** Seamlessly transition from rigid, spine-hidden tiling to free-flowing floating modes where the titlebars emerge for precise control.
+*   **Urchin Synergy:** Dechinus does not try to be a panel or a system tray. It is designed to co-exist in perfect synergy with third-party tools like **Polybar**, **Lemonbar**, or **Tint2**, respecting the "Work Area" defined by your chosen bar.
+*   **Hybrid Control:** Optimized for the "Keyboard-First, Mouse-Friendly" user. Use the keyboard to snap windows into place, or use the mouse to interact with the titlebar widgets.
 
 ## Features
 
-* **XDG Base Directory Compliant**
-  Uses `~/.config/dewm/` instead of cluttering the home directory.
-
-* **Lightweight & Fast**
-  Minimal dependencies with efficient runtime performance.
-
-* **Highly Configurable**
-  Customize layouts, gaps, titlebars, and keybindings via Xresources.
-
-* **Smart Installation**
-  Automatically detects the invoking user and deploys configuration safely — avoiding common root install issues.
+*   **XDG Base Directory Compliant** — Configuration stays organized in `~/.config/dewm/`.
+*   **The 2K Flex** — A complete, reparenting engine with multi-monitor support (XRandR) in under 2,000 lines of code.
+*   **Marine-Grade Performance** — High-performance event handling with minimal CPU and memory overhead.
+*   **Smart Deployment** — An intelligent build system that detects the user and deploys `dewmrc` to the home directory automatically during `make install`.
+*   **Xresources Configuration** — Change gaps, colors, titlebars, and layouts instantly via the `dewmrc` file without recompiling.
+*   **Stabilized DNA** — Features a color fallback system and refactored Atom handling to ensure your session remains stable even if your configuration has errors.
 
 ## Installation
 
 ### Dependencies
-
-* `X11`
-* `Xft`
-* `pkg-config`
-* *(Optional)* `libxrandr` (for multi-monitor setups)
+*   `X11` (libX11)
+*   `Xft` (for anti-aliased text)
+*   `pkg-config`
+*   `libxrandr` (for multi-monitor support)
 
 ### Build & Install
-
 ```bash
 git clone https://github.com/dpTech-front/dechinus.git
 cd dechinus
-
 make
 sudo make install
 ```
-
-## Automated Environment Setup
-
-Unlike traditional window managers, **Dechinus includes an intelligent installer**.
-
-Running `sudo make install` will:
-
-1. Install the `dewm` binary to `/usr/local/bin`
-2. Detect the original user (via `SUDO_USER`)
-3. Deploy default configuration and assets to:
-
-```bash
-~/.config/dewm/
-```
-
-> No manual copying required — your environment is ready immediately.
-
-## Running Dechinus
-
-Add this to your `.xinitrc`:
-
-```bash
-exec dewm
-```
-
-Or select **dewm** from your display manager.
+*The installer automatically deploys the default configuration to `~/.config/dewm/` for the original user.*
 
 ## Configuration
+Dechinus is configured via **Xresources** syntax in `~/.config/dewm/dewmrc`.
 
-Dechinus uses **Xresources** for configuration.
+### Layout Symbols
+*   `i` — **Iconify** (Floating/Manual)
+*   `t` — **Tile** (Classic Master/Stack)
+*   `b` — **BStack** (Bottom Stack)
+*   `m` — **Monocle** (Full Screen Focus)
+*   `f` — **Floating** (Freeform Overlap)
 
-Edit:
-
-```bash
-~/.config/dewm/dewmrc
-```
-
-### Core Settings
-
-| Setting              | Description                              | Example |
-| -------------------- | ---------------------------------------- | ------- |
-| `Dechinus*deflayout` | Default layout (`i`, `f`, `t`, `b`, `m`) | `t`     |
-| `Dechinus*gap`       | Window gaps (pixels)                     | `5`     |
-| `Dechinus*mwfact`    | Master area size ratio                   | `0.55`  |
-| `Dechinus*nmaster`   | Number of master windows                 | `1`     |
-| `Dechinus*sloppy`    | Focus mode (0–3)                         | `1`     |
-| `Dechinus*modkey`    | Modifier key (`A`, `W`, `S`, `C`)        | `W`     |
-
-### Titlebar Settings
-
-* `Dechinus*decoratetiled` — Enable titlebars in tiled mode (`1` or `0`)
-* `Dechinus*titlelayout` — Titlebar format
-  Example: `"N  IMC"` (Name, Iconify, Maximize, Close)
-
---
-## Why Dechinus?: Major Changes & Optimizations
-
-Dechinus is not just a rename; it includes several core improvements over the original Echinus source:
-
-*   **XDG Compliance:** Config moved from `~/.echinus` to `~/.config/dewm/` for a cleaner home directory.
-*   **Performance Optimization:** Removed legacy "Must Die" macros. Replaced redundant function calls to `curmonitor()` with explicit, high-performance monitor pointers across the entire source.
-*   **Smart Installation:** The build system intelligently detects the `SUDO_USER` to install configuration files into the correct user home directory, even when running with `sudo`.
-*   **Stability Enhancements:** Added a color fallback system. If an invalid color is provided in the config, the WM now defaults to black instead of crashing the X session.
-*   **Clean EWMH Implementation:** Optimized Atom handling and fixed compiler warnings by refactoring 2D string arrays into standard 1D pointer lists.
-*   **Binary Synergy:** The binary name `dewm` and the config `dewmrc` are now unified for a more intuitive user experience.
-
-It keeps the spirit of classic tiling WMs — but removes the friction.
+## Optimizations & Performance
+Dechinus is a sharpened version of its core logic:
+*   **Code Purge:** All redundant logic and legacy macros have been stripped away for a cleaner, faster execution path.
+*   **Refined Event Handling:** Replaced global monitor lookups with explicit pointer passing, significantly speeding up window management on multi-screen setups.
+*   **Memory Integrity:** Refactored internal string handling to ensure long-term stability and zero compiler warnings.
 
 ## Contributing
-
-Contributions are welcome.
-
-* Improve layouts
-* Fix bugs
-* Refine defaults
-* Submit pull requests
+Help us sharpen the spines.
+1. Fork the repo.
+2. Keep it minimal (< 2k lines).
+3. Submit a PR.
 
 ## License
-
-**MIT License** — see [LICENSE](./LICENSE)
+**MIT License** — See [LICENSE](./LICENSE)
