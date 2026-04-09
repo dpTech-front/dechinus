@@ -25,7 +25,7 @@ Dechinus*nmaster: 1
 Dechinus*font: fixed-9
 Dechinus*modkey: A
 
-Dechinus*deflayout: i
+Dechinus*deflayout: f
 
 Dechinus*gap: 16
 
@@ -49,7 +49,7 @@ Dechinus*viewprevtag: A + Tab
 Dechinus*viewlefttag: AS + Left
 Dechinus*viewrighttag: AS + Right
 Dechinus*quit: CA + q
-Dechinus*restart: AS + q = echinus
+Dechinus*restart: AS + q = dewm
 Dechinus*killclient: AS + c
 Dechinus*togglefloating: A + space
 Dechinus*zoom: A + Return
@@ -99,14 +99,14 @@ Dechinus*resizedecy: AS + s = 0 0 0 -5
 Dechinus*resizeincx: AS + d = 0 0 5 0
 Dechinus*resizeincy: AS + w = 0 0 0 5
 
-Dechinus*spawn0: A + t = xterm
+Dechinus*spawn0: A + t = st
 
 Dechinus*decmwfact: A + h = -0.05
 Dechinus*incmwfact: A + l = +0.05
 Dechinus*decnmaster: AS + j = -1
 Dechinus*incnmaster: AS + k = +1
 
-Dechinus*command: xterm
+Dechinus*command: st
 
 Dechinus*rule0: Firefox.* web 0 1
 Dechinus*rule4: Mplayer.* NULL 1 1

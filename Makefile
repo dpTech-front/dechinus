@@ -39,7 +39,7 @@ dist: clean
 	@echo creating dist tarball
 	@mkdir -p dewm-${VERSION}
 	@cp -R LICENSE Makefile README.md config.mk \
-		echinus.1 dewmrc ${SRC} ${HEADERS} ${PIXMAPS} dewm-${VERSION}
+		dechinus.1 dewmrc ${SRC} ${HEADERS} ${PIXMAPS} dewm-${VERSION}
 	@tar -cf dewm-${VERSION}.tar dewm-${VERSION}
 	@gzip dewm-${VERSION}.tar
 	@rm -rf dewm-${VERSION}

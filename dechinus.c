@@ -1,24 +1,6 @@
-/* See LICENSE file for copyright and license details.
- *
- * echinus window manager is designed like any other X client as well. It is
- * driven through handling X events. In contrast to other X clients, a window
- * manager selects for SubstructureRedirectMask on the root window, to receive
- * events about window (dis-)appearance.  Only one X connection at a time is
- * allowed to select for this event mask.
- *
- * The event handlers of echinus are organized in an
- * array which is accessed whenever a new event has been fetched. This allows
- * event dispatching in O(1) time.
- *
- * Each child of the root window is called a client, except windows which have
- * set the override_redirect flag.  Clients are organized in a global
- * doubly-linked client list, the focus history is remembered through a global
- * stack list. Each client contains an array of Bools of the same size as the
- * global tags array to indicate the tags of a client.	
- *
- * Keys and tagging rules are organized as arrays and defined in config.h.
- *
- * To understand everything else, start reading main().
+/* Dechinus WM (dewn) - Sharp, minimal, fast tiling window manager for X11
+ * Event-driven client management via SubstructureRedirect.
+ * Configured via dewmrc. See LICENSE for copyright detailes.
  */
 
 #include <sys/types.h>
@@ -1781,19 +1763,25 @@ unban(Client * c) {
 }
 
 void
-unmanage(Client * c) {
+unmanage(Client *c) {
 	Monitor *m = clientmonitor(c);
 	XGrabServer(dpy);
-	XSelectInput(dpy, c->frame, NoEventMask); XUnmapWindow(dpy, c->frame);
-	if (c->title) { XftDrawDestroy(c->xftdraw); XFreePixmap(dpy, c->drawable); XDestroyWindow(dpy, c->title); }
+	XSelectInput(dpy, c->frame, NoEventMask);
+	XUnmapWindow(dpy, c->frame);
+	detach(c); detachstack(c);
+	if (sel == c) focus(NULL);
+	if (c->title) {
+		XftDrawDestroy(c->xftdraw); XFreePixmap(dpy, c->drawable);
+		XDestroyWindow(dpy, c->title); c->title = 0;
+	}
 	XUngrabButton(dpy, AnyButton, AnyModifier, c->win);
 	XReparentWindow(dpy, c->win, root, c->x, c->y);
-	detach(c); detachstack(c); if (sel == c) focus(NULL);
 	setclientstate(c, WithdrawnState); XDestroyWindow(dpy, c->frame);
-	if (!c->isbastard) free(c->tags); free(c);
+	if (!c->isbastard) free(c->tags);
+	free(c);
 	XSync(dpy, False); XUngrabServer(dpy);
 	if (m) { updategeom(m); arrange(m); }
-	updateatom[ClientList] (NULL);
+	updateatom[ClientList](NULL);
 }
 
 void
