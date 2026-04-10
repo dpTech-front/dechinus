@@ -1,3 +1,11 @@
+## Linux Systems Project
+
+This project demonstrates Linux window system internals, including:
+- X11 event handling
+- Reparenting window architecture
+- Tiling vs floating management
+- IPC-based control (Unix-style tooling)
+
 # Dechinus WM
 ![Captain Dechinus](assets/captain-dechinus.svg)
 > **Stay Sharp. Stay Lean.** The minimalist sea urchin of window managers.
